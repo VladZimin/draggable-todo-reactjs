@@ -2,6 +2,7 @@ import React from "react";
 
 import {v4} from 'uuid'
 import {randomColor} from 'randomcolor'
+import Draggable from "react-draggable";
 
 import './App.css';
 
@@ -41,16 +42,46 @@ function App() {
     }
   }
 
+  const deleteTask = (taskId) => {
+    setAllTasks(allTasks.filter( taskObj => taskObj.id !== taskId))
+  };
+
+  const updateTaskPos = (data, index) => {
+    const newArr = [...allTasks]
+    newArr[index].defaultPosition = {x: data.x, y: data.y}
+    setAllTasks(newArr)
+  };
+
+  const keyPress = e => {
+    if (e.which === 13) {
+      addNewTask()
+    }
+  };
+
   return (
     <div className="App">
       <div className='wrapper'>
         <input
             onChange={handleChangeInput}
+            onKeyPress={keyPress}
             type="text"
             placeholder='Enter a task...'
             value={task}
         />
         <button onClick={addNewTask} className='enter'>ENTER</button>
+
+        {
+          allTasks.map( (taskObj, index) => <Draggable
+              key={taskObj.id}
+              defaultPosition={taskObj.defaultPosition}
+              onStop={ (_,data) => updateTaskPos(data, index)}
+          >
+            <div className='task__item' style={{background: taskObj.color}}>
+              {taskObj.task}
+              <button onClick={ () => deleteTask(taskObj.id)} className='delete__task'>X</button>
+            </div>
+          </Draggable>)
+        }
       </div>
     </div>
   )

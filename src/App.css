@@ -38,3 +38,25 @@ input {
   color: #222222;
   cursor: pointer;
  }
+
+.task__item {
+  position: absolute;
+  cursor: move;
+  min-width: 220px;
+  color: #222222;
+  padding: 1em;
+  border-radius: 5px;
+  font-size: 18px;
+}
+
+.delete__task {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border: none;
+  background: none;
+}
+.delete__task:hover {
+  color: red;
+  cursor: pointer;
+}
